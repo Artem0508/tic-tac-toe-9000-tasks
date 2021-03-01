@@ -110,7 +110,7 @@ def test_scenario():
             x_coordinate=0,
             y_coordinate=0
         )
-    ) == False
+    ) == True
 
     assert game.is_turn_correct(
         TicTacToeTurn(
@@ -142,14 +142,13 @@ def test_scenario():
         ],
         first_player_id="Petya",
         second_player_id="Vasya",
-        winner_id="Petya"
+        winner_id=""
     )
 
     assert game.is_turn_correct(
         TicTacToeTurn(
-            player_id="Vasya",
+            player_id= "Vasya",
             x_coordinate=1,
             y_coordinate=2
         )
-    ) == False
-
+    ) == True

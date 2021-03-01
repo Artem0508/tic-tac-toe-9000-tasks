@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import List, Callable
 from dataclasses import dataclass
-
+from copy import deepcopy
 
 @dataclass
 class TicTacToeTurn:
@@ -30,17 +30,31 @@ class AbstractTicTacToeGame(ABC):
             strategy: Callable[[TicTacToeGameInfo], TicTacToeTurn] = None
         ) -> None:
         """пока просто раскладываем по полям"""
-
-    @abstractmethod
-    def is_turn_correct(self, turn: TicTacToeTurn) -> bool:
-        """подумайте, когда использовать"""
-
-    @abstractmethod
-    def do_turn(self, turn: TicTacToeTurn) -> TicTacToeGameInfo:
-        """сначала проверяем корректность, для проверки используйте is_turn_correct,
-        а возвращаем TicTacToeGameInfo"""
+        self.__game_id = game_id
+        self.__first_player_id = first_player_id
+        self.__second_player_id = second_player_id
+        self.__winner_id = ""
+        self.__strategy = strategy
+        self.__turns: List[TicTacToeTurn] = []
 
     @abstractmethod
     def get_game_info(self) -> TicTacToeGameInfo:
-        """обычный геттер"""
-
+        result = TicTacToeGameInfo(
+            game_id=self.__game_id,
+            field=[
+                [" ", " ", " "],
+                [" ", " ", " "],
+                [" ", " ", " "]
+            ],
+            sequence_of_turns=deepcopy(self.__turns),
+            first_player_id=self.__first_player_id,
+            second_player_id=self.__second_player_id,
+            winner_id=self.__winner_id
+        )
+        for turn in self.__turns:
+            if turn.player_id == self.__first_player_id:
+                ch = "X"
+            else:
+                ch = "O"
+            result.field[turn.x_coordinate][turn.y_coordinate] = ch
+        return result
