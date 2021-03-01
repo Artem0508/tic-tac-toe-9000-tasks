@@ -10,7 +10,7 @@ def print_game_info(game: TicTacToeGame):
         print("|" + "|".join(row) + "|")
         print(" - - - ")
     if game_info.winner_id == "":
-        print(f"{game.current_player_id()}'s turn")
+        print(f"{game._current_player_id()}'s turn")
     elif game_info.winner_id == "draw":
         print("Draw!")
     else:
@@ -42,7 +42,7 @@ if __name__ == "__main__":
             screen_clear()
             print("Wrong format!")
             continue
-        turn = TicTacToeTurn(game.current_player_id(), x, y)
+        turn = TicTacToeTurn(game._current_player_id(), x, y)
         if not game.is_turn_correct(turn):
             screen_clear()
             print("Incorrect turn!")
